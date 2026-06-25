@@ -10,22 +10,20 @@ name="viewport"
 content="width=device-width, initial-scale=1.0">
 
 <title>
-
 Nexarium SHA Suite
-
 </title>
 
 <meta
 name="description"
-content="Professional SHA Hash Suite">
-
-<meta
-name="theme-color"
-content="#000000">
+content="Professional Client-Side SHA Hash Suite">
 
 <meta
 name="robots"
 content="index,follow">
+
+<meta
+name="theme-color"
+content="#000000">
 
 <meta
 http-equiv="X-Content-Type-Options"
@@ -35,22 +33,36 @@ content="nosniff">
 http-equiv="Referrer-Policy"
 content="strict-origin-when-cross-origin">
 
+<meta
+http-equiv="Permissions-Policy"
+content="
+camera=(),
+microphone=(),
+geolocation=(),
+payment=(),
+usb=(),
+bluetooth=()
+">
+
 <style>
 
 :root{
 
 --gold:#d4af37;
---gold2:#b8922f;
+--gold-dark:#b8922f;
 
 --bg:#000000;
+
 --card:#0d0d0d;
 
---border:#242424;
+--border:#232323;
 
 --text:#d7d7d7;
---muted:#8f8f8f;
+
+--muted:#8d8d8d;
 
 --success:#34d058;
+
 --error:#ff6464;
 
 }
@@ -60,6 +72,12 @@ content="strict-origin-when-cross-origin">
 margin:0;
 padding:0;
 box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
 
 }
 
@@ -92,19 +110,21 @@ border-bottom:
 
 header h1{
 
-font-size:3.3rem;
+font-size:3.4rem;
 
 color:var(--gold);
 
 letter-spacing:4px;
 
+font-weight:700;
+
 }
 
 header p{
 
-color:var(--muted);
-
 margin-top:10px;
+
+color:var(--muted);
 
 }
 
@@ -136,12 +156,13 @@ margin-bottom:24px;
 
 color:var(--gold);
 
-margin-bottom:18px;
-
 font-size:1.8rem;
 
+margin-bottom:18px;
+
 }
-  label{
+
+label{
 
 display:block;
 
@@ -161,7 +182,7 @@ background:#050505;
 
 color:var(--text);
 
-border:1px solid var(--gold2);
+border:1px solid var(--gold-dark);
 
 border-radius:12px;
 
@@ -175,7 +196,7 @@ textarea{
 
 width:100%;
 
-min-height:220px;
+min-height:240px;
 
 padding:16px;
 
@@ -183,7 +204,7 @@ background:#050505;
 
 color:var(--text);
 
-border:1px solid var(--gold2);
+border:1px solid var(--gold-dark);
 
 border-radius:12px;
 
@@ -203,7 +224,7 @@ background:#050505;
 
 color:var(--text);
 
-border:1px solid var(--gold2);
+border:1px solid var(--gold-dark);
 
 border-radius:12px;
 
@@ -292,9 +313,9 @@ padding:14px;
 
 .stat-title{
 
-color:var(--muted);
-
 font-size:.85rem;
+
+color:var(--muted);
 
 margin-bottom:4px;
 
@@ -308,7 +329,7 @@ padding:18px;
 
 background:#050505;
 
-border:1px solid var(--gold2);
+border:1px solid var(--gold-dark);
 
 border-radius:12px;
 
@@ -319,20 +340,6 @@ Consolas,
 monospace;
 
 min-height:90px;
-
-}
-
-a{
-
-color:var(--gold);
-
-text-decoration:none;
-
-}
-
-a:hover{
-
-text-decoration:underline;
 
 }
 
@@ -352,7 +359,42 @@ font-weight:700;
 
 }
 
-</style>
+a{
+
+color:var(--gold);
+
+text-decoration:none;
+
+}
+
+a:hover{
+
+text-decoration:underline;
+
+}
+
+@media(max-width:768px){
+
+header h1{
+
+font-size:2.4rem;
+
+}
+
+.actions{
+
+flex-direction:column;
+
+}
+
+button{
+
+width:100%;
+
+}
+
+}
+  </style>
 
 </head>
 
@@ -368,13 +410,13 @@ NEXARIUM SHA SUITE
 
 <p>
 
-Professional Client-Side Hash Utility
+Professional Client-Side Cryptographic Utility
 
 </p>
 
 <p>
 
-SHA-1 • SHA-256 • SHA-384 • SHA-512
+SHA-256 • SHA-384 • SHA-512
 
 </p>
 
@@ -398,12 +440,6 @@ Algorithm
 
 <select id="algorithm">
 
-<option value="SHA-1">
-
-SHA-1 (Legacy)
-
-</option>
-
 <option
 value="SHA-256"
 selected>
@@ -412,13 +448,15 @@ SHA-256
 
 </option>
 
-<option value="SHA-384">
+<option
+value="SHA-384">
 
 SHA-384
 
 </option>
 
-<option value="SHA-512">
+<option
+value="SHA-512">
 
 SHA-512
 
@@ -462,6 +500,12 @@ Export JSON
 
 </button>
 
+<button id="pdfBtn">
+
+Export PDF
+
+</button>
+
 </div>
 
 <div class="stats">
@@ -502,7 +546,7 @@ Bytes
 
 <div class="stat-title">
 
-Hash Time
+Processing Time
 
 </div>
 
@@ -577,7 +621,7 @@ No file selected
 <div
 id="fileSize"
 style="
-margin-top:8px;
+margin-top:6px;
 color:var(--muted);
 ">
 
@@ -586,6 +630,7 @@ File size: 0 bytes
 </div>
 
 </div>
+
 <div class="card">
 
 <h2>
@@ -600,26 +645,24 @@ color:var(--muted);
 margin-bottom:15px;
 ">
 
-Generate all recommended SHA hashes
-simultaneously.
+Generated automatically for text
+and uploaded files.
 
 </p>
 
 <div class="result">
 
-<strong>SHA-256</strong>
+<strong>
 
-<div id="multi256">
+SHA-256
 
--
+</strong>
 
-</div>
-
-<br>
-
-<strong>SHA-384</strong>
-
-<div id="multi384">
+<div
+id="multi256"
+style="
+margin-top:5px;
+">
 
 -
 
@@ -627,9 +670,35 @@ simultaneously.
 
 <br>
 
-<strong>SHA-512</strong>
+<strong>
 
-<div id="multi512">
+SHA-384
+
+</strong>
+
+<div
+id="multi384"
+style="
+margin-top:5px;
+">
+
+-
+
+</div>
+
+<br>
+
+<strong>
+
+SHA-512
+
+</strong>
+
+<div
+id="multi512"
+style="
+margin-top:5px;
+">
 
 -
 
@@ -638,7 +707,6 @@ simultaneously.
 </div>
 
 </div>
-
 <div class="card">
 
 <h2>
@@ -677,15 +745,15 @@ min-height:30px;
 
 <h2>
 
-Privacy & GDPR Statement
+Privacy & GDPR
 
 </h2>
 
 <p>
 
-This application performs cryptographic
-operations locally within the user's
-browser environment.
+This utility is designed to perform
+cryptographic operations exclusively
+within the user's browser environment.
 
 </p>
 
@@ -693,9 +761,8 @@ browser environment.
 
 <p>
 
-No account creation, registration,
-authentication or user profiling
-is required.
+No user account, registration,
+authentication or profiling is required.
 
 </p>
 
@@ -703,10 +770,8 @@ is required.
 
 <p>
 
-No cookies, advertising technologies,
-tracking scripts or analytics systems
-are intentionally integrated into
-this application.
+No cookies are intentionally created by
+this application for tracking purposes.
 
 </p>
 
@@ -714,10 +779,10 @@ this application.
 
 <p>
 
-Text entered by users and files
-selected for hashing are processed
-locally and are not intentionally
-transmitted for hash calculation.
+No analytics platforms, advertising
+networks, telemetry frameworks or
+behavioral tracking technologies are
+intentionally integrated.
 
 </p>
 
@@ -725,12 +790,22 @@ transmitted for hash calculation.
 
 <p>
 
-Technical infrastructure providers,
-hosting services, DNS operators and
-network providers may maintain
-operational logs required for
+Text entered and files selected by users
+are processed locally for hash generation
+purposes and are not intentionally
+transmitted to external services.
+
+</p>
+
+<br>
+
+<p>
+
+Infrastructure providers such as hosting,
+DNS, CDN, network and security services
+may create technical logs required for
 availability, abuse prevention and
-security purposes.
+operational security.
 
 </p>
 
@@ -738,9 +813,11 @@ security purposes.
 
 <p>
 
-Users remain responsible for assessing
-their own regulatory obligations and
-data protection requirements.
+Users remain responsible for determining
+whether their own use of this utility
+complies with applicable legal,
+regulatory, privacy and data protection
+requirements.
 
 </p>
 
@@ -756,8 +833,8 @@ Legal Notice
 
 <p>
 
-This utility is provided on an
-"as-is" and "as-available" basis
+This service is provided on an
+"AS IS" and "AS AVAILABLE" basis
 without warranties of any kind.
 
 </p>
@@ -766,11 +843,11 @@ without warranties of any kind.
 
 <p>
 
-Cryptographic results should be
-independently verified before use
-within legal, commercial, operational,
-security-sensitive or production
-environments.
+Cryptographic results should always be
+independently verified before being used
+within legal, governmental, regulatory,
+commercial, operational or security
+sensitive environments.
 
 </p>
 
@@ -778,10 +855,11 @@ environments.
 
 <p>
 
-The operator disclaims liability for
-direct, indirect, incidental, special
-or consequential damages arising from
-the use or misuse of this service.
+The operator expressly disclaims all
+liability for direct, indirect,
+incidental, consequential, punitive
+or special damages arising from the use,
+misuse or inability to use this service.
 
 </p>
 
@@ -789,61 +867,41 @@ the use or misuse of this service.
 
 <p>
 
-Nothing on this website constitutes
-legal, compliance, regulatory or
-cybersecurity advice.
+Nothing contained within this website
+constitutes legal advice, compliance
+advice, cybersecurity advice or any form
+of professional consulting service.
 
 </p>
 
 </div>
 
-<footer
-style="
-margin-top:50px;
-padding:35px 20px;
-border-top:1px solid var(--gold);
-text-align:center;
-">
+<footer>
 
-<div
-style="
-font-size:1.5rem;
-font-weight:700;
-color:var(--gold);
-margin-bottom:10px;
-">
+<div class="footer-brand">
 
 NEXARIUM
 
 </div>
 
-<div
-style="
-color:var(--muted);
-margin-bottom:20px;
-">
+<div class="footer-subtitle">
 
 Professional Cryptographic Utilities
 
 </div>
 
-<div
-style="
-margin-bottom:16px;
-">
+<div class="footer-grid">
 
-<div
-style="
-font-size:.85rem;
-color:var(--muted);
-margin-bottom:4px;
-">
+<div>
+
+<div class="footer-title">
 
 CONTACT
 
 </div>
 
-<a href="mailto:contact@nexarium.us">
+<a
+href="mailto:contact@nexarium.us">
 
 contact@nexarium.us
 
@@ -851,23 +909,16 @@ contact@nexarium.us
 
 </div>
 
-<div
-style="
-margin-bottom:18px;
-">
+<div>
 
-<div
-style="
-font-size:.85rem;
-color:var(--muted);
-margin-bottom:4px;
-">
+<div class="footer-title">
 
 DECENTRALIZED IDENTITY
 
 </div>
 
-<a href="https://identity.nvo987.us">
+<a
+href="https://identity.nvo987.us">
 
 did:web:identity.nvo987.us
 
@@ -875,19 +926,86 @@ did:web:identity.nvo987.us
 
 </div>
 
-<div
-style="
-font-size:.85rem;
-color:var(--muted);
-">
+</div>
 
-Version 1.0
+<div class="footer-copy">
+
+Version 2.0
 
 </div>
 
 </footer>
 
 </div>
+
+<style>
+
+footer{
+
+margin-top:40px;
+
+padding:30px 20px;
+
+border-top:
+1px solid var(--gold);
+
+text-align:center;
+
+}
+
+.footer-brand{
+
+font-size:1.5rem;
+
+font-weight:700;
+
+color:var(--gold);
+
+margin-bottom:8px;
+
+}
+
+.footer-subtitle{
+
+color:var(--muted);
+
+margin-bottom:18px;
+
+}
+
+.footer-grid{
+
+display:flex;
+
+justify-content:center;
+
+gap:60px;
+
+flex-wrap:wrap;
+
+margin-bottom:18px;
+
+}
+
+.footer-title{
+
+font-size:.82rem;
+
+color:var(--muted);
+
+margin-bottom:4px;
+
+}
+
+.footer-copy{
+
+font-size:.85rem;
+
+color:var(--muted);
+
+}
+
+</style>
 
 <script>
 
@@ -916,6 +1034,11 @@ document.getElementById(
 "hashLength"
 );
 
+const fileInput =
+document.getElementById(
+"fileInput"
+);
+
 textInput.addEventListener(
 "input",
 function(){
@@ -939,19 +1062,15 @@ new TextEncoder()
 }
 );
 
-async function digestHash(
+async function hashBuffer(
 algo,
-text
+buffer
 ){
-
-const data =
-new TextEncoder()
-.encode(text);
 
 const hash =
 await crypto.subtle.digest(
 algo,
-data
+buffer
 );
 
 return Array
@@ -966,7 +1085,68 @@ b.toString(16)
 .join("");
 
 }
-  async function generateHash(){
+
+async function hashText(
+algo,
+text
+){
+
+const data =
+new TextEncoder()
+.encode(text);
+
+return await hashBuffer(
+algo,
+data
+);
+
+}
+  async function updateMultiHashFromBuffer(
+buffer
+){
+
+const sha256 =
+await hashBuffer(
+"SHA-256",
+buffer
+);
+
+const sha384 =
+await hashBuffer(
+"SHA-384",
+buffer
+);
+
+const sha512 =
+await hashBuffer(
+"SHA-512",
+buffer
+);
+
+document
+.getElementById(
+"multi256"
+)
+.textContent =
+sha256;
+
+document
+.getElementById(
+"multi384"
+)
+.textContent =
+sha384;
+
+document
+.getElementById(
+"multi512"
+)
+.textContent =
+sha512;
+
+}
+
+async function generateHash(){
 
 const value =
 textInput.value;
@@ -983,12 +1163,9 @@ return;
 const start =
 performance.now();
 
-const selected =
-algorithm.value;
-
 const hash =
-await digestHash(
-selected,
+await hashText(
+algorithm.value,
 value
 );
 
@@ -1005,34 +1182,12 @@ hashTime.textContent =
 (end-start).toFixed(2)
 + " ms";
 
-document
-.getElementById(
-"multi256"
-)
-.textContent =
-await digestHash(
-"SHA-256",
-value
-);
+const buffer =
+new TextEncoder()
+.encode(value);
 
-document
-.getElementById(
-"multi384"
-)
-.textContent =
-await digestHash(
-"SHA-384",
-value
-);
-
-document
-.getElementById(
-"multi512"
-)
-.textContent =
-await digestHash(
-"SHA-512",
-value
+await updateMultiHashFromBuffer(
+buffer
 );
 
 }
@@ -1044,6 +1199,70 @@ document
 .addEventListener(
 "click",
 generateHash
+);
+
+fileInput
+.addEventListener(
+"change",
+async function(){
+
+const file =
+this.files[0];
+
+if(!file){
+
+return;
+
+}
+
+document
+.getElementById(
+"selectedFile"
+)
+.textContent =
+file.name;
+
+document
+.getElementById(
+"fileSize"
+)
+.textContent =
+"File size: "
++
+file.size
++
+" bytes";
+
+const start =
+performance.now();
+
+const buffer =
+await file.arrayBuffer();
+
+const hash =
+await hashBuffer(
+algorithm.value,
+buffer
+);
+
+const end =
+performance.now();
+
+resultBox.textContent =
+hash;
+
+hashLength.textContent =
+hash.length;
+
+hashTime.textContent =
+(end-start).toFixed(2)
++ " ms";
+
+await updateMultiHashFromBuffer(
+buffer
+);
+
+}
 );
 
 document
@@ -1062,9 +1281,9 @@ await navigator
 resultBox.textContent
 );
 
-}catch(e){
+}catch(err){
 
-console.error(e);
+console.error(err);
 
 }
 
@@ -1128,6 +1347,144 @@ target.innerHTML =
 
 document
 .getElementById(
+"txtBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+const blob =
+new Blob(
+[
+resultBox.textContent
+],
+{
+type:
+"text/plain"
+}
+);
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+const a =
+document.createElement(
+"a"
+);
+
+a.href = url;
+
+a.download =
+"hash.txt";
+
+a.click();
+
+URL.revokeObjectURL(
+url
+);
+
+}
+);
+
+document
+.getElementById(
+"jsonBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+const data = {
+
+algorithm:
+algorithm.value,
+
+timestamp:
+new Date()
+.toISOString(),
+
+hash:
+resultBox.textContent,
+
+sha256:
+document
+.getElementById(
+"multi256"
+)
+.textContent,
+
+sha384:
+document
+.getElementById(
+"multi384"
+)
+.textContent,
+
+sha512:
+document
+.getElementById(
+"multi512"
+)
+.textContent
+
+};
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+data,
+null,
+2
+)
+],
+{
+type:
+"application/json"
+}
+);
+
+const url =
+URL.createObjectURL(
+blob
+);
+
+const a =
+document.createElement(
+"a"
+);
+
+a.href = url;
+
+a.download =
+"hash.json";
+
+a.click();
+
+URL.revokeObjectURL(
+url
+);
+
+}
+);
+
+document
+.getElementById(
+"pdfBtn"
+)
+.addEventListener(
+"click",
+function(){
+
+window.print();
+
+}
+);
+
+document
+.getElementById(
 "clearBtn"
 )
 .addEventListener(
@@ -1135,6 +1492,8 @@ document
 function(){
 
 textInput.value="";
+
+fileInput.value="";
 
 document
 .getElementById(
@@ -1147,12 +1506,6 @@ document
 "verifyResult"
 )
 .innerHTML="";
-
-document
-.getElementById(
-"fileInput"
-)
-.value="";
 
 document
 .getElementById(
@@ -1180,10 +1533,17 @@ document
 )
 .textContent="0";
 
-hashLength.textContent="0";
+document
+.getElementById(
+"hashTime"
+)
+.textContent="0 ms";
 
-hashTime.textContent=
-"0 ms";
+document
+.getElementById(
+"hashLength"
+)
+.textContent="0";
 
 document
 .getElementById(
@@ -1203,193 +1563,8 @@ document
 )
 .textContent="-";
 
-resultBox.textContent=
+resultBox.textContent =
 "Awaiting input...";
-
-}
-);
-
-function exportTXT(){
-
-const blob =
-new Blob(
-[
-resultBox.textContent
-],
-{
-type:"text/plain"
-}
-);
-
-const url =
-URL.createObjectURL(
-blob
-);
-
-const a =
-document.createElement(
-"a"
-);
-
-a.href=url;
-
-a.download=
-"hash.txt";
-
-a.click();
-
-URL.revokeObjectURL(
-url
-);
-
-}
-
-document
-.getElementById(
-"txtBtn"
-)
-.addEventListener(
-"click",
-exportTXT
-);
-
-function exportJSON(){
-
-const data={
-
-algorithm:
-algorithm.value,
-
-timestamp:
-new Date()
-.toISOString(),
-
-hash:
-resultBox.textContent
-
-};
-
-const blob=
-new Blob(
-[
-JSON.stringify(
-data,
-null,
-2
-)
-],
-{
-type:
-"application/json"
-}
-);
-
-const url=
-URL.createObjectURL(
-blob
-);
-
-const a=
-document.createElement(
-"a"
-);
-
-a.href=url;
-
-a.download=
-"hash.json";
-
-a.click();
-
-URL.revokeObjectURL(
-url
-);
-
-}
-
-document
-.getElementById(
-"jsonBtn"
-)
-.addEventListener(
-"click",
-exportJSON
-);
-
-document
-.getElementById(
-"fileInput"
-)
-.addEventListener(
-"change",
-async function(){
-
-const file=
-this.files[0];
-
-if(!file){
-
-return;
-
-}
-
-document
-.getElementById(
-"selectedFile"
-)
-.textContent=
-file.name;
-
-document
-.getElementById(
-"fileSize"
-)
-.textContent=
-"File size: "
-+
-file.size
-+
-" bytes";
-
-const start=
-performance.now();
-
-const buffer=
-await file.arrayBuffer();
-
-const hash=
-await crypto
-.subtle
-.digest(
-algorithm.value,
-buffer
-);
-
-const hex=
-Array
-.from(
-new Uint8Array(hash)
-)
-.map(
-b =>
-b.toString(16)
-.padStart(2,"0")
-)
-.join("");
-
-resultBox.textContent=
-hex;
-
-hashLength.textContent=
-hex.length;
-
-const end=
-performance.now();
-
-hashTime.textContent=
-(end-start).toFixed(2)
-+
-" ms";
 
 }
 );
@@ -1412,7 +1587,7 @@ generateHash();
 );
 
 console.log(
-"Nexarium SHA Suite Ready"
+"Nexarium SHA Suite v2 Ready"
 );
 
 </script>

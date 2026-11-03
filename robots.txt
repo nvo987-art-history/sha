@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sha.nvo987.us/sitemap.xml 
